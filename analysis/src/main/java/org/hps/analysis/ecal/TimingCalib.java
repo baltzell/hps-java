@@ -34,12 +34,6 @@ public class TimingCalib extends Driver {
     // prior to 2019, this was 2.004;
     final static double RFPERIOD = 4.008; // ns
    
-    final static int NX = 46;
-    final static int NY = 10;
-    final static int NCHAN = 442;
-    final static int XHOLE[] = {-10,-2};
-    final static int IXHOLE[] = {13,21};
-    
     final static String RFHITS_NAME = "RFHits";
     final static String RAWHITS_NAME = "EcalUncalHits";
     final static String HITS_NAME = "EcalCalHits";
@@ -60,11 +54,11 @@ public class TimingCalib extends Driver {
         private String filename = null;
         public TimeShifts(){
             super();
-            for (int ii=0; ii<NCHAN; ii++) this.put(ii,0.0);
+            for (int ii=0; ii<Mapper.NCHAN; ii++) this.put(ii,0.0);
         }
         public TimeShifts(String filename) throws IOException {
             super();
-            for (int ii=0; ii<NCHAN; ii++) this.put(ii,0.0);
+            for (int ii=0; ii<Mapper.NCHAN; ii++) this.put(ii,0.0);
             this.readFile(filename);
         }
         public void readFile(String filename) throws IOException {
@@ -108,6 +102,11 @@ public class TimingCalib extends Driver {
     // class just to get ecal_channel_id for conditions database
     // from ix/iy, presumably this is already available somewhere ...
     public static final class Mapper extends HashMap<Long,Integer> {
+        public final static int NCHAN = 442;
+        public final static int NX = 46;
+        public final static int NY = 10;
+        public final static int XHOLE[] = {-10,-2};
+        public final static int IXHOLE[] = {13,21};
         public Mapper() {
             super();
             for (int iy=NY/2; iy>=-NY/2; iy--) {
@@ -176,7 +175,7 @@ public class TimingCalib extends Driver {
 
         // intialize histograms:
         aida.tree().cd("/");
-        for (int ii=0; ii<NCHAN; ii++) {
+        for (int ii=0; ii<Mapper.NCHAN; ii++) {
             aida.histogram1D(String.format("t_%03d",ii),400,0,200);
             aida.histogram1D(String.format("dt_%03d",ii),100,-20,20);
             aida.histogram1D(String.format("rfdt_%03d",ii),100,-2,2);
