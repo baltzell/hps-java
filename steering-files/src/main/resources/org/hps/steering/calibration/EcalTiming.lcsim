@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lcsim xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/lcsim/1.0/lcsim.xsd">
+
+    <execute>
+        
+        <driver name="EcalRunningPedestal"/>
+        <driver name="EcalRawConverter" />
+        <driver name="EcalTimeCorrection"/>
+        <driver name="ReconClusterer" />
+        
+        <driver name="RfFitter"/>
+        <!--<driver name="TimingCalib"/>-->
+	    
+        <driver name="AidaSaveDriver"/>
+        <driver name="LCIOWriter"/>
+        <driver name="CleanupDriver"/>
+    </execute>
+
+    <drivers>
+
+        <driver name="EcalRunningPedestal" type="org.hps.recon.ecal.EcalRunningPedestalDriver"/>
+        <driver name="EcalRawConverter" type="org.hps.recon.ecal.EcalRawConverter2Driver"/>
+        <driver name="EcalTimeCorrection" type="org.hps.recon.ecal.EcalTimeCorrectionDriver"/>
+
+        <driver name="ClusterRFTimeCorrDriver" type="org.hps.recon.ecal.cluster.ClusterRFTimeCorrDriver"/>  
+        <driver name="ReconClusterer" type="org.hps.recon.ecal.cluster.ReconClusterDriver">
+            <logLevel>WARNING</logLevel>
+            <inputHitCollectionName>EcalUncalHits</inputHitCollectionName>
+            <outputClusterCollectionName>EcalClusters</outputClusterCollectionName>
+        </driver>
+
+        <driver name="RfFitter" type="org.hps.evio.RfFitterDriver"/>
+        <driver name="TimingCalib" type="org.hps.analysis.ecal.TimingCalib">
+            <!--<timeShiftFile>${timeShiftFile}</timeShiftFile>-->
+        </driver>
+        
+        <driver name="LCIOWriter" type="org.lcsim.util.loop.LCIODriver">
+            <outputFilePath>${outputLcioFile}</outputFilePath>
+        </driver>
+        <driver name="AidaSaveDriver" type="org.lcsim.job.AidaSaveDriver">
+            <outputFileName>${outputRootFile}</outputFileName>
+        </driver>
+
+        <driver name="CleanupDriver" type="org.lcsim.recon.tracking.digitization.sisim.config.ReadoutCleanupDriver"/>
+
+    </drivers>
+
+</lcsim>

@@ -15,6 +15,10 @@
       <groupId>org.hps</groupId>
       <artifactId>hps-recon</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.hps</groupId>
+      <artifactId>hps-evio</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
